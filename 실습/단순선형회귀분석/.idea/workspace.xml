@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31259ae4-63d3-4865-8de4-0b51b5b19c10" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../.idea/데이터사이언스.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../다중선형회귀분석/Boston_house.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../다중회귀_모델_해석_및_다중공선성진단/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../다중회귀_모델_해석_및_다중공선성진단/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../다중회귀_모델_해석_및_다중공선성진단/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../다중회귀_모델_해석_및_다중공선성진단/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../다중회귀_모델_해석_및_다중공선성진단/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../다중회귀_모델_해석_및_다중공선성진단/.idea/다중회귀_모델_해석_및_다중공선성진단.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../다중회귀_모델_해석_및_다중공선성진단/practice.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -145,9 +149,9 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="54" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1585061605026" />
-    <state x="459" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1587019625725">
+    <state x="459" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1587107701096">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="459" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1587019625725" />
+    <state x="459" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1587107701096" />
   </component>
 </project>
