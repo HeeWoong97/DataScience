@@ -88,12 +88,14 @@ pred_Y = cutoff(pred_y, 0.5)
 # -> 예측값과 실제값을 나타낸 표
 # 행: 실제값, 열: 예측값
 cfmat = confusion_matrix(test_y, pred_Y)
-print(cfmat)
+# print(cfmat)
 
 # accuracy 계산하기
 # -> (옳게 분류된 데이터 수)/(전체 데이터의 수)
 accuracy = (cfmat[0, 0] + cfmat[1, 1]) / len(pred_Y)
-print(accuracy)
+
+
+# print(accuracy)
 
 
 # accuracy 계산하는 함수
@@ -101,4 +103,84 @@ def acc(cfmat):
     return (cfmat[0, 0] + cfmat[1, 1]) / (cfmat[0, 0] + cfmat[0, 1] + cfmat[1, 0] + cfmat[1, 1])
 
 
-print(acc(cfmat))
+# print(acc(cfmat))
+
+# threshold 에 따른 성능지표 비교
+# 0.5~0.6 사이의 값으로 설정하는 것이 성능이 제일 좋다
+threshold = np.arange(0, 1, 0.1)
+table = pd.DataFrame(columns=['ACC'])
+for i in threshold:
+    pred_Y = cutoff(pred_y, i)
+    cfmat = confusion_matrix(test_y, pred_Y)
+    table.loc[i] = acc(cfmat)
+table.index.name = 'threshold'
+table.columns.name = 'performance'
+# print(table)
+
+# sklearn ROC 패키지
+# fpr: false positive rate(가짜 양성률)
+# tpr: true positive rate(진짜 양성률)
+# threshold: fpr 과 tpr 을 계산하는데 사용한 threshold 값
+# pos_lable parameter: positive 로 설정될 값
+fpr, tpr, thresholds = metrics.roc_curve(test_y, pred_y, pos_label=1)
+
+# ROC curve 출력
+# 커브가 왼쪽 위로 볼록할수록 성능이 좋은 모델이다
+plt.plot(fpr, tpr)
+# plt.show()
+
+# AUC 값 출력
+# 1에 가까운 값이다
+# np.trapz: trapezoidal rule(사다리꼴 공식)로 넓이를 구함
+auc = np.trapz(tpr, fpr)
+# print(auc)
+
+# p-value 값이 높게 나온 Experience, Mortgage 변수를 제거하고 접합
+feature_columns = list(ploan_processed.columns.difference(['Personal Loan', 'Experience', 'Mortgage']))
+X = ploan_processed[feature_columns]
+y = ploan_processed['Personal Loan']
+
+train_x2, test_x2, train_y, test_y = train_test_split(X, y, stratify=y, train_size=0.7, test_size=0.3,
+                                                      random_state=42)
+# print(train_x2.shape, test_x2.shape, train_y.shape, test_y.shape)
+
+# 로지스틱 모델 접합
+model = sm.Logit(train_y, train_x2)
+result2 = model.fit(method='newton')
+
+# 이전 모델과 비교
+# 다른 변수들은 값이 크게 변하지 않았다
+# -> Experience, Mortgage 는 다른 변수들과 다중공선성이 거의 없다
+# -> 또한 y 값을 예측하는데 큰 도움이 되지 않는다
+# print(results.summary())
+# print(result2.summary())
+
+# 예측
+pred_y = result2.predict(test_x2)
+
+# threshold = 0.5
+pred_Y2 = cutoff(pred_y, 0.5)
+
+# confusion matrix
+# 변수를 제거해도 검증데이터의 성능은 크게 증가하지 않았다
+cfmat = confusion_matrix(test_y, pred_Y2)
+# print(acc(cfmat))
+
+# 아까와 비슷하게 0.5~0.6 사이에서 가장 높은 성능을 낸다
+threshold = np.arange(0, 1, 0.1)
+table = pd.DataFrame(columns=['ACC'])
+for i in threshold:
+    pred_Y2 = cutoff(pred_y, i)
+    cfmat = confusion_matrix(test_y, pred_Y2)
+    table.loc[i] = acc(cfmat)
+table.index.name = 'threshold'
+table.columns.name = 'performance'
+# print(table)
+
+# ROC curve
+fpr, tpr, thresholds = metrics.roc_curve(test_y, pred_Y2, pos_label=1)
+plt.plot(fpr, tpr)
+auc = np.trapz(tpr, fpr)
+
+# ##########변수선택법##########
+
