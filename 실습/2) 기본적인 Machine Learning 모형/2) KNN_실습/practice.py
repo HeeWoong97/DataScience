@@ -19,7 +19,7 @@ y_pred = cif.predict(X)
 print(confusion_matrix(y, y_pred))
 
 ####################
-# #cross validation 을 이용한 K 값 찾기
+# #k-fold cross-validation 을 이용한 K 값 찾기
 # cross_val_score: cross validation 을 진행해서 score 가 높은 것으로 뽑아내겠다
 # KNN 의 K 값 범위
 k_range = range(1, 100)
@@ -27,7 +27,7 @@ k_scores = []
 
 for k in k_range:
     knn = neighbors.KNeighborsClassifier(k)
-    # fold 를 10개로(cv), 성능 검증에는 accuracy 활용(scoring)
+    # fold 를 10개로(cv), 성능 검증에는 accuracy(10번 실행 중 정답 비율) 활용(scoring)
     scores = cross_val_score(knn, X, y, cv=10, scoring='accuracy')
     # mean: fold 를 나눈대로 반복하기 때문. 평균을 낸다
     k_scores.append(scores.mean())
@@ -43,7 +43,9 @@ plt.show()
 # 거리가 가까울수록 가중치를 줌
 n_neighbors = 40
 
-h = .02  # step size in the mesh
+# 분포(mesh grid)를 그릴때 최소단위
+# 분포를 직교좌표계에 그리는데 최소 눈금단위가 0.2
+h = .02
 
 cmap_light = ListedColormap(['#FFAAAA', '#AAFFAA', '#AAAAFF'])
 cmap_bold = ListedColormap(['#FF0000', '#00FF00', '#0000FF'])
@@ -60,6 +62,7 @@ for weights in ['uniform', 'distance']:
     y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
     xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
                          np.arange(y_min, y_max, h))
+    # mesh 내부의 점(xx.ravel()) 을 설명변수로 해서 예측
     Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
 
     # Put the result into a color plot
